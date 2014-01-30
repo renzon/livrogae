@@ -13,4 +13,15 @@ class OutroHandler(webapp2.RequestHandler):
         self.response.write('Olá Wepapp2!')
 
 
-app = webapp2.WSGIApplication([('/', HomeHandler),('/outra', OutroHandler)], debug=True)
+class ParametrosHandler(webapp2.RequestHandler):
+    def get(self):
+        nome = self.request.get('nome')
+        sobrenome = self.request.get('sobrenome')
+        self.response.write('Olá %s %s!' % (nome, sobrenome))
+
+
+app = webapp2.WSGIApplication([('/', HomeHandler),
+                               ('/outra', OutroHandler),
+                               ('/parametros', ParametrosHandler)
+                              ],
+                              debug=True)
