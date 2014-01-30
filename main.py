@@ -20,8 +20,19 @@ class ParametrosHandler(webapp2.RequestHandler):
         self.response.write('Olá %s %s!' % (nome, sobrenome))
 
 
+class RedirecionaParaOutroHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect('/outra')
+
+
+class GoogleHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect(str('http://www.google.com'))
+
+
 app = webapp2.WSGIApplication([('/', HomeHandler),
                                ('/outra', OutroHandler),
-                               ('/parametros', ParametrosHandler)
-                              ],
+                               ('/redirecionar', RedirecionaParaOutroHandler),
+                               ('/google', GoogleHandler),
+                               ('/parametros', ParametrosHandler)],
                               debug=True)
