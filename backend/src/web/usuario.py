@@ -6,6 +6,6 @@ def index(_resp):
     _resp.write("Página do Usuário")
 
 
-def ola(_resp, nome):
-    _resp.write("Olá %s" % nome)
+def ola(_resp, nome, sobrenome):
+    _resp.write("Olá %s %s" % (nome, sobrenome))
 
