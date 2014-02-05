@@ -11,10 +11,10 @@ import webapp2
 
 class BaseHandler(webapp2.RequestHandler):
     def get(self):
-        self.make_convetion()
+        self.make_convention()
 
     def post(self):
-        self.make_convetion()
+        self.make_convention()
 
     def make_convention(self):
         middleware.execute(settings.MIDDLEWARES, self)
