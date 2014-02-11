@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from tekton import router
 
 
 def index(_resp):
@@ -7,7 +8,7 @@ def index(_resp):
 
 
 def redirecionar(_handler):
-    url=r'/usuario/ola/Renzo/Nuccitelli'
+    url = router.to_path(ola, 'Renzo', 'Nuccitelli')
     _handler.redirect(url)
 
 
