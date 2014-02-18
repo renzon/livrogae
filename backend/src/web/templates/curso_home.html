@@ -3,6 +3,11 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <h1>Página de Cursos</h1>
+            <ol>
+            {% for curso in lista_cursos %}
+                <li>{{ curso.nome }}</li>
+            {% endfor %}
+            </ol>
         </div>
     </div>
 {% endblock %}
