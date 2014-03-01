@@ -5,7 +5,7 @@
             <h1>Página de Cursos</h1>
             <ol>
             {% for curso in lista_cursos %}
-                <li>{{ curso.nome }}</li>
+                <li><a href="{{ matricula_url }}/{{ curso.nome }}">{{ curso.nome }}</a></li>
             {% endfor %}
             </ol>
         </div>

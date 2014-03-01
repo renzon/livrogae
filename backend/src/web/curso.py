@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from tekton import router
 
 
 def index(_write_tmpl):
@@ -11,5 +12,10 @@ def index(_write_tmpl):
                                        'Objetos Pythônicos',
                                        'Python para quem sabe Python')]
 
-    dct = {'lista_cursos': cursos}
+    dct = {'lista_cursos': cursos,
+           'matricula_url': router.to_path(matricula)}
     _write_tmpl('/templates/curso_home.html', dct)
+
+
+def matricula(curso_id):
+    pass
