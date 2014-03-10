@@ -6,13 +6,17 @@
 
             <div class="row">
                 <div class="col-md-4 column">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Nome do Curso"/>
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                  </span>
-                    </div>
+                    <form action="{{ salvar_url }}" method="post">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Nome do Curso" name="nome"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </div>
             <br/>
