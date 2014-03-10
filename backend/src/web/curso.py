@@ -11,13 +11,15 @@ class CursoFake(object):
 
 
 cursos = [CursoFake(nome, slug) for nome, slug in (('PyPrático', 'pypratico'),
-                                               ('Objetos Pythônicos', 'objetos-pythonicos'),
-                                               ('Python para quem sabe Python', 'pythor-para-quem-sabe-python'))]
+                                                   ('Objetos Pythônicos', 'objetos-pythonicos'),
+                                                   ('Python para quem sabe Python', 'pythor-para-quem-sabe-python'))]
 
 cursos_dct = {curso.slug: curso for curso in cursos}
 
 
 def index(_write_tmpl):
+    query = Curso.query_ordenada_por_nome()
+    cursos = query.fetch()
     dct = {'lista_cursos': cursos,
            'matricula_url': router.to_path(matricula),
            'salvar_url': router.to_path(salvar)}
