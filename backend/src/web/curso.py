@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from google.appengine.ext import ndb
 from curso.model import Curso
 from tekton import router
 
@@ -33,6 +34,8 @@ def salvar(_handler, nome):
     _handler.redirect(path)
 
 
-def matricula(_write_tmpl, curso_slug):
-    dct = {'curso': cursos_dct[curso_slug]}
+def matricula(_write_tmpl, curso_key_urlsafe):
+    key = ndb.Key(urlsafe=curso_key_urlsafe)
+    curso = key.get()
+    dct = {'curso': curso}
     _write_tmpl('/templates/matricula.html', dct)
