@@ -22,7 +22,7 @@
             <br/>
             <ol>
                 {% for curso in lista_cursos %}
-                    <li><a href="{{ matricula_url }}/{{ curso.key.urlsafe() }}">{{ curso.nome }}</a></li>
+                    <li><a href="{{ matricula_url }}/{{ curso.key.id() }}">{{ curso.nome }}</a></li>
                 {% endfor %}
             </ol>
         </div>

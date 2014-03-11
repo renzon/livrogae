@@ -34,8 +34,8 @@ def salvar(_handler, nome):
     _handler.redirect(path)
 
 
-def matricula(_write_tmpl, curso_key_urlsafe):
-    key = ndb.Key(urlsafe=curso_key_urlsafe)
-    curso = key.get()
+def matricula(_write_tmpl, curso_id):
+    curso_id = int(curso_id)
+    curso = Curso.get_by_id(curso_id)
     dct = {'curso': curso}
     _write_tmpl('/templates/matricula.html', dct)
