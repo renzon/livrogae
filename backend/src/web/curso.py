@@ -1,21 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from google.appengine.ext import ndb
 from curso.model import Curso
 from tekton import router
-
-
-class CursoFake(object):
-    def __init__(self, nome='', slug=''):
-        self.slug = slug
-        self.nome = nome
-
-
-cursos = [CursoFake(nome, slug) for nome, slug in (('PyPrático', 'pypratico'),
-                                                   ('Objetos Pythônicos', 'objetos-pythonicos'),
-                                                   ('Python para quem sabe Python', 'pythor-para-quem-sabe-python'))]
-
-cursos_dct = {curso.slug: curso for curso in cursos}
 
 
 def index(_write_tmpl):
