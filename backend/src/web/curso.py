@@ -28,7 +28,7 @@ def matricula(_write_tmpl, curso_id, pesquisa=''):
     curso_id = int(curso_id)
     curso = Curso.get_by_id(curso_id)
 
-    #pesquisa de todos usuários
+    #pesquisa de usuários por nome
     query = Usuario.query_por_nome(pesquisa)
     usuarios = query.fetch(50)
 
