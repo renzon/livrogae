@@ -26,17 +26,18 @@ def salvar(_handler, nome):
 def matricula(_write_tmpl, curso_id, pesquisa=''):
     #pesquisa de curso
     curso_id = int(curso_id)
-    curso = Curso.get_by_id(curso_id)
+    curso_key = ndb.Key(Curso, curso_id)
+    curso_future = curso_key.get_async()
 
     #pesquisa de usuários por nome
     query = Usuario.query_por_nome(pesquisa)
-    usuarios = query.fetch(50)
+    usuarios_future = query.fetch_async(50)
 
     #pesquisa de matrículas
-    query = Matricula.query_matriculas_de_curso(curso.key)
+    query = Matricula.query_matriculas_de_curso(curso_key)
     matriculas = query.fetch()
     chaves_usuarios_matriculados = [m.usuario for m in matriculas]
-    usuarios_matriculados = ndb.get_multi(chaves_usuarios_matriculados)
+    usuarios_matriculados_future = ndb.get_multi_async(chaves_usuarios_matriculados)
 
     #construção de paths
     matricula_path = router.to_path(matricular, curso_id)
@@ -44,9 +45,12 @@ def matricula(_write_tmpl, curso_id, pesquisa=''):
     matricula_home_path = router.to_path(matricula, curso_id)
 
     #construção de lista de alunos não matriculados
+    usuarios = usuarios_future.get_result()
     usuarios_nao_matriculados = [usuario for usuario in usuarios
                                  if usuario.key not in chaves_usuarios_matriculados]
 
+    curso = curso_future.get_result()
+    usuarios_matriculados = [future.get_result() for future in usuarios_matriculados_future]
     dct = {'curso': curso, 'pesquisa': pesquisa,
            'usuarios_matriculados': usuarios_matriculados,
            'usuarios_nao_matriculados': usuarios_nao_matriculados,
