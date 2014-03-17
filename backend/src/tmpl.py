@@ -8,11 +8,13 @@ _jinja_environment = jinja2.Environment(
     trim_blocks=True,
     autoescape=True)
 
-def format_datetime(date):
-    return date.strftime('%d/%m/%y - %H:%M:%S')
+
+def format_datetime(date, str_format='%d/%m/%y - %H:%M:%S'):
+    return date.strftime(str_format)
 
 
 _jinja_environment.filters['datetime'] = format_datetime
+
 
 def render(template_name, values={}):
     template = _jinja_environment.get_template(template_name)

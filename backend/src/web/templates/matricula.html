@@ -5,7 +5,7 @@
             <h1 class="text-center">Matrículas {{ curso.nome }} </h1>
 
         </div>
-    <br />
+        <br/>
     </div>
     <div class="row clearfix">
         <div class="col-md-6 column">
@@ -21,6 +21,7 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
+
                             <th>
                                 #
                             </th>
@@ -36,38 +37,30 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                3
-                            </td>
-                            <td>
-                                John Doe Foo
-                            </td>
-                            <td>
-                                foo@gmail.com
-                            </td>
+                        {% for usuario in usuarios_matriculados %}
+                            <tr>
 
-                            <td>
-                                <a href="#" class="btn btn-danger">Desmatricular</a>
-                            </td>
-                        </tr>
+                                <td>
+                                    {{ usuario.key.id() }}
+                                </td>
+                                <td>
+                                    {{ usuario.nome }}
+                                </td>
+                                <td>
+                                    {{ usuario.email }}
+                                </td>
 
-                        <tr>
-                            <td>
-                                4
-                            </td>
-                            <td>
-                                Jenny Doe Bar
-                            </td>
-                            <td>
-                                bar@gmail.com
-                            </td>
-
-                            <td>
-                                <a href="#" class="btn btn-danger">Desmatricular</a>
-                            </td>
-                        </tr>
-
+                                <td>
+                                    <a href="#" class="btn btn-danger">Desmatricular</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>
+                                    Nenhum Usuário Matrículado
+                                </td>
+                            </tr>
+                        {% endfor %}
 
                         </tbody>
                     </table>
@@ -95,6 +88,7 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
+
                             <th>
                                 #
                             </th>
@@ -110,39 +104,29 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                Renzo Nuccitelli
-                            </td>
-                            <td>
-                                renzon@gmail.com
-                            </td>
+                        {% for usuario in usuarios_nao_matriculados %}
+                            <tr>
 
-                            <td>
-                                <a href="#" class="btn btn-success">Matricular</a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                2
-                            </td>
-                            <td>
-                                Beltrano
-                            </td>
-                            <td>
-                                beltrano@gmail.com
-                            </td>
-
-                            <td>
-                                <a href="#" class="btn btn-success">Matricular</a>
-                            </td>
-                        </tr>
-
-
+                                <td>
+                                    {{ usuario.key.id() }}
+                                </td>
+                                <td>
+                                    {{ usuario.nome }}
+                                </td>
+                                <td>
+                                    {{ usuario.email }}
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-success">Matricular</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>
+                                    Nenhum Usuário Encontrado
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>

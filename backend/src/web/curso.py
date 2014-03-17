@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from curso.model import Curso
+from itertools import izip
+from google.appengine.ext import ndb
+from curso.model import Curso, Matricula
 from tekton import router
+from usuario.model import Usuario
 
 
 def index(_write_tmpl):
@@ -23,5 +26,15 @@ def salvar(_handler, nome):
 def matricula(_write_tmpl, curso_id):
     curso_id = int(curso_id)
     curso = Curso.get_by_id(curso_id)
-    dct = {'curso': curso}
+    query = Usuario.query_por_nome()
+    usuarios = query.fetch(50)
+    query = Matricula.query_matriculas(curso.key)
+    matriculas = query.fetch()
+    chaves_usuarios_matriculados = [m.usuario for m in matriculas]
+    usuarios_matriculados = ndb.get_multi(chaves_usuarios_matriculados)
+    usuarios_nao_matriculados = [usuario for usuario in usuarios
+                                 if usuario.key not in chaves_usuarios_matriculados]
+    dct = {'curso': curso,
+           'usuarios_matriculados': usuarios_matriculados,
+           'usuarios_nao_matriculados': usuarios_nao_matriculados}
     _write_tmpl('/templates/matricula.html', dct)

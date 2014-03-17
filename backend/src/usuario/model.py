@@ -12,6 +12,10 @@ class Usuario(PolyModel):
     def origem(self):
         raise NotImplementedError()
 
+    @classmethod
+    def query_por_nome(cls,nome=''):
+        return cls.query(cls.nome>=nome).order(cls.nome)
+
 
 class UsuarioFacebook(Usuario):
     face_id = ndb.StringProperty(required=True)
@@ -24,3 +28,5 @@ class UsuarioGoogle(Usuario):
 
     def origem(self):
         return 'Google (%s)' % self.google_id
+
+
