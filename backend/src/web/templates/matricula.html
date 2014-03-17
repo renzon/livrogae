@@ -52,7 +52,7 @@
 
                                 <td>
                                     <form action="{{ desmatricula_path }}" method="post">
-                                        <input type="hidden" name="usuario_id" value="{{ usuario.key.id() }}" />
+                                        <input type="hidden" name="usuario_id" value="{{ usuario.key.id() }}"/>
                                         <button class="btn btn-danger">Desmatricular</button>
                                     </form>
                                 </td>
@@ -81,13 +81,17 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Pesquisar aluno"/>
+                    <form action="{{ matricula_home_path }}" method="get">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" placeholder="Pesquisar aluno"
+                                   value="{{ pesquisa }}" name="pesquisa"/>
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span>
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span>
                     </button>
                   </span>
-                    </div>
+                        </div>
+                    </form>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -121,7 +125,7 @@
                                 </td>
                                 <td>
                                     <form action="{{ matricula_path }}" method="post">
-                                        <input type="hidden" name="usuario_id" value="{{ usuario.key.id() }}" />
+                                        <input type="hidden" name="usuario_id" value="{{ usuario.key.id() }}"/>
                                         <button class="btn btn-success">Matricular</button>
                                     </form>
                                 </td>

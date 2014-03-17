@@ -23,13 +23,13 @@ def salvar(_handler, nome):
     _handler.redirect(path)
 
 
-def matricula(_write_tmpl, curso_id):
+def matricula(_write_tmpl, curso_id, pesquisa=''):
     #pesquisa de curso
     curso_id = int(curso_id)
     curso = Curso.get_by_id(curso_id)
 
     #pesquisa de todos usuários
-    query = Usuario.query_por_nome()
+    query = Usuario.query_por_nome(pesquisa)
     usuarios = query.fetch(50)
 
     #pesquisa de matrículas
@@ -38,18 +38,20 @@ def matricula(_write_tmpl, curso_id):
     chaves_usuarios_matriculados = [m.usuario for m in matriculas]
     usuarios_matriculados = ndb.get_multi(chaves_usuarios_matriculados)
 
-    #construção de path base para matricula e desmatricula
+    #construção de paths
     matricula_path = router.to_path(matricular, curso_id)
     desmatricula_path = router.to_path(desmatricular, curso_id)
+    matricula_home_path = router.to_path(matricula, curso_id)
 
     #construção de lista de alunos não matriculados
     usuarios_nao_matriculados = [usuario for usuario in usuarios
                                  if usuario.key not in chaves_usuarios_matriculados]
 
-    dct = {'curso': curso,
+    dct = {'curso': curso, 'pesquisa': pesquisa,
            'usuarios_matriculados': usuarios_matriculados,
            'usuarios_nao_matriculados': usuarios_nao_matriculados,
            'matricula_path': matricula_path,
+           'matricula__home_path': matricula_home_path,
            'desmatricula_path': desmatricula_path}
     _write_tmpl('/templates/matricula.html', dct)
 
