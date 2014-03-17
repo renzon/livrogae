@@ -18,5 +18,9 @@ class Matricula(ndb.Model):
     criacao = ndb.DateTimeProperty(auto_now_add=True)
 
     @classmethod
-    def query_matriculas(cls, curso_key):
+    def query_matriculas_de_curso(cls, curso_key):
         return cls.query(cls.curso == curso_key)
+
+    @classmethod
+    def query_matricula(cls, curso, usuario):
+        return cls.query(cls.curso == curso, cls.usuario == usuario)

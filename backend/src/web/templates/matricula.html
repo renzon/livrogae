@@ -51,7 +51,10 @@
                                 </td>
 
                                 <td>
-                                    <a href="#" class="btn btn-danger">Desmatricular</a>
+                                    <form action="{{ desmatricula_path }}" method="post">
+                                        <input type="hidden" name="usuario_id" value="{{ usuario.key.id() }}" />
+                                        <button class="btn btn-danger">Desmatricular</button>
+                                    </form>
                                 </td>
                             </tr>
                         {% else %}
@@ -117,7 +120,10 @@
                                     {{ usuario.email }}
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-success">Matricular</a>
+                                    <form action="{{ matricula_path }}" method="post">
+                                        <input type="hidden" name="usuario_id" value="{{ usuario.key.id() }}" />
+                                        <button class="btn btn-success">Matricular</button>
+                                    </form>
                                 </td>
                             </tr>
                         {% else %}
