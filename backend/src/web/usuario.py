@@ -4,11 +4,25 @@ from tekton import router
 from usuario.model import UsuarioGoogle, Usuario, UsuarioFacebook
 
 
-def index(_write_tmpl):
-    dct = {'adicionar_usuario_google_path': router.to_path(google),
-           'adicionar_usuario_face_path': router.to_path(face)}
+def index(_write_tmpl, pagina_atual=1):
+    pagina_atual = int(pagina_atual)
+    offset = int(pagina_atual) - 1
+    TAMANHO_DA_PAGINA = 2
     query = Usuario.query().order(Usuario.nome)
-    dct['usuarios'] = query.fetch()
+    usuarios_future = query.fetch_async(offset=offset, limit=TAMANHO_DA_PAGINA)
+    pagina_inicial = max(1, pagina_atual - 2)
+    pagina_final = pagina_inicial + 4
+    pagina_anterior = max(pagina_inicial, pagina_atual - 1)
+    dct = {'adicionar_usuario_google_path': router.to_path(google),
+           'adicionar_usuario_face_path': router.to_path(face),
+           'home_path': router.to_path(index),
+           'pagina_atual': pagina_atual,
+           'pagina_inicial': pagina_inicial,
+           'pagina_final': pagina_final,
+           'pagina_anterior': pagina_anterior,
+           'pagina_posterior': pagina_atual + 1,
+           'usuarios': usuarios_future.get_result()}
+
     _write_tmpl("/templates/usuario_home.html", dct)
 
 
