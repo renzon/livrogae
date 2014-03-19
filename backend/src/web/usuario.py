@@ -6,8 +6,8 @@ from usuario.model import UsuarioGoogle, Usuario, UsuarioFacebook
 
 def index(_write_tmpl, pagina_atual=1):
     pagina_atual = int(pagina_atual)
-    offset = int(pagina_atual) - 1
     TAMANHO_DA_PAGINA = 2
+    offset = (pagina_atual - 1)*TAMANHO_DA_PAGINA
 
     #Busca assíncrona por usuários
     query = Usuario.query().order(Usuario.nome)
