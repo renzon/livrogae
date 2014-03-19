@@ -6,27 +6,30 @@
             <a href="{{ adicionar_usuario_google_path }}" class="btn btn-success"> Adicionar Usuário Google</a>
             <a href="{{ adicionar_usuario_face_path }}" class="btn btn-primary"> Adicionar Usuário Facebook</a>
             <br/>
-            {% macro construir_pagina(pagina,label=None,eh_pagina_atual=False) %}
-                {% set label=label or pagina %}
-                {% if eh_pagina_atual %}
-                    <li class="active">
-                        <a href="#">{{ label }}</a>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="{{ home_path }}/{{ pagina }}">{{ label }}</a>
-                    </li>
-                {% endif %}
-            {% endmacro %}
-            <ul class="pagination">
-                {{ construir_pagina(pagina_anterior,'Anterior') }}
 
-                {% for pagina in range(pagina_inicial,pagina_final+1) %}
-                {{ construir_pagina(pagina,eh_pagina_atual=(pagina_atual==pagina)) }}
-                {% endfor %}
+            {% block paginacao %}
+                {% macro construir_pagina(pagina,label=None,eh_pagina_atual=False) %}
+                    {% set label=label or pagina %}
+                    {% if eh_pagina_atual %}
+                        <li class="active">
+                            <a href="#">{{ label }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ home_path }}/{{ pagina }}">{{ label }}</a>
+                        </li>
+                    {% endif %}
+                {% endmacro %}
+                <ul class="pagination">
+                    {{ construir_pagina(pagina_anterior,'Anterior') }}
 
-                {{ construir_pagina(pagina_posterior,'Próxima') }}
-            </ul>
+                    {% for pagina in range(pagina_inicial,pagina_final+1) %}
+                        {{ construir_pagina(pagina,eh_pagina_atual=(pagina_atual==pagina)) }}
+                    {% endfor %}
+
+                    {{ construir_pagina(pagina_posterior,'Próxima') }}
+                </ul>
+            {% endblock paginacao %}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -72,29 +75,7 @@
 
                 </tbody>
             </table>
-            <ul class="pagination">
-                <li>
-                    <a href="#">Anterior</a>
-                </li>
-                <li>
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">4</a>
-                </li>
-                <li>
-                    <a href="#">5</a>
-                </li>
-                <li>
-                    <a href="#">Próxima</a>
-                </li>
-            </ul>
+        {{ self.paginacao() }}
         </div>
     </div>
 {% endblock %}
