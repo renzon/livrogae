@@ -7,10 +7,10 @@ from usuario.model import UsuarioGoogle, Usuario, UsuarioFacebook
 def index(_write_tmpl, pagina_atual=1):
     pagina_atual = int(pagina_atual)
     TAMANHO_DA_PAGINA = 2
-    offset = (pagina_atual - 1)*TAMANHO_DA_PAGINA
 
     #Busca assíncrona por usuários
     query = Usuario.query().order(Usuario.nome)
+    offset = (pagina_atual - 1)*TAMANHO_DA_PAGINA
     usuarios_future = query.fetch_async(offset=offset, limit=TAMANHO_DA_PAGINA)
 
     #Setup de numeração de páginas
