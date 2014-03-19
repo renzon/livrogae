@@ -8,11 +8,17 @@ def index(_write_tmpl, pagina_atual=1):
     pagina_atual = int(pagina_atual)
     offset = int(pagina_atual) - 1
     TAMANHO_DA_PAGINA = 2
+
+    #Busca assíncrona por usuários
     query = Usuario.query().order(Usuario.nome)
     usuarios_future = query.fetch_async(offset=offset, limit=TAMANHO_DA_PAGINA)
+
+    #Setup de numeração de páginas
     pagina_inicial = max(1, pagina_atual - 2)
     pagina_final = pagina_inicial + 4
     pagina_anterior = max(pagina_inicial, pagina_atual - 1)
+
+    #Construção de parâmetros a serem renderizados pelo template
     dct = {'adicionar_usuario_google_path': router.to_path(google),
            'adicionar_usuario_face_path': router.to_path(face),
            'home_path': router.to_path(index),
