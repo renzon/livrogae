@@ -4,11 +4,13 @@ from google.appengine.ext.ndb.query import Cursor
 from tekton import router
 from usuario.model import UsuarioGoogle, Usuario, UsuarioFacebook
 
-BUSCA_FRENTE = 'FRENTE'
-BUSCA_TRAS = 'TRAS'
 
 
-def index(_write_tmpl, pagina_origem=1, direcao_busca=BUSCA_FRENTE, cursor_urlsafe='None', pagina_destino=1):
+
+def index(_write_tmpl, pagina_origem=1, direcao_busca='FRENTE',
+          cursor_urlsafe='None', pagina_destino=1):
+    BUSCA_FRENTE = 'FRENTE'
+    BUSCA_TRAS = 'TRAS'
     #tranformacao e calculo de parametros
     pagina_origem = int(pagina_origem)
     pagina_destino = int(pagina_destino)
@@ -67,7 +69,9 @@ def index(_write_tmpl, pagina_origem=1, direcao_busca=BUSCA_FRENTE, cursor_urlsa
         usuarios.reverse()
 
     cursor_urlsafe = cursor.urlsafe() if cursor else 'None'
-    dct['home_path'] = router.to_path(index, pagina_destino, nova_direcao_busca, cursor_urlsafe)
+    dct['home_path'] = router.to_path(index,
+                                      pagina_destino,
+                                      nova_direcao_busca, cursor_urlsafe)
     dct['usuarios'] = usuarios
     _write_tmpl("/templates/usuario_home.html", dct)
 
