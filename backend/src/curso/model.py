@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
-from usuario.model import Usuario
 
 
 class Curso(ndb.Model):
@@ -14,7 +13,7 @@ class Curso(ndb.Model):
 
 class Matricula(ndb.Model):
     curso = ndb.KeyProperty(Curso, required=True)
-    usuario = ndb.KeyProperty(Usuario, required=True)
+    usuario = ndb.KeyProperty(required=True)
     criacao = ndb.DateTimeProperty(auto_now_add=True)
 
     @classmethod

@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from itertools import izip
 from google.appengine.ext import ndb
+from curso import fachada
 from curso.model import Curso, Matricula
 from tekton import router
 from usuario.model import Usuario
@@ -61,9 +62,8 @@ def matricula(_write_tmpl, curso_id, pesquisa=''):
 
 
 def matricular(_handler, curso_id, usuario_id):
-    curso_key = ndb.Key(Curso, int(curso_id))
     usuario_key = ndb.Key(Usuario, int(usuario_id))
-    Matricula(curso=curso_key, usuario=usuario_key).put()
+    fachada.matricular(curso_id, usuario_key)
     _handler.redirect(router.to_path(matricula, curso_id))
 
 
