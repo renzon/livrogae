@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from itertools import izip
 from google.appengine.ext import ndb
 from curso import fachada
 from curso.fachada import pesquisar_curso
 from curso.model import Curso, Matricula
 from tekton import router
+from usuario.fachada import pesquisar_usuarios_por_nome
 from usuario.model import Usuario
 
 
@@ -27,14 +27,13 @@ def salvar(_handler, nome):
 
 def matricula(_write_tmpl, curso_id, pesquisa=''):
     #pesquisa de curso
-    pesquisar_curso_cmd,curso_key = pesquisar_curso(curso_id)
+    pesquisar_curso_cmd, curso_key = pesquisar_curso(curso_id)
 
     #pesquisa de usuários por nome
-    query = Usuario.query_por_nome(pesquisa)
-    usuarios_future = query.fetch_async(50)
+    pesquisar_usuarios_cmd = pesquisar_usuarios_por_nome(pesquisa)
 
+    lista_de_comandos = pesquisar_curso_cmd + pesquisar_usuarios_cmd
     #pesquisa de matrículas
-    curso = pesquisar_curso_cmd.execute().result
     query = Matricula.query_matriculas_de_curso(curso_key)
     matriculas = query.fetch()
     chaves_usuarios_matriculados = [m.usuario for m in matriculas]
@@ -45,8 +44,11 @@ def matricula(_write_tmpl, curso_id, pesquisa=''):
     desmatricula_path = router.to_path(desmatricular, curso_id)
     matricula_home_path = router.to_path(matricula, curso_id)
 
+    # Execução de todos comandos
+    lista_de_comandos.execute()
+    curso = pesquisar_curso_cmd.result
+    usuarios=pesquisar_usuarios_cmd.result
     #construção de lista de alunos não matriculados
-    usuarios = usuarios_future.get_result()
     usuarios_nao_matriculados = [usuario for usuario in usuarios
                                  if usuario.key not in chaves_usuarios_matriculados]
 
