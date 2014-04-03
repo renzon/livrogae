@@ -2,7 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
 from curso import fachada
-from curso.fachada import pesquisar_curso
+from curso.fachada import pesquisar_curso, pesquisar_matriculas_de_curso, pesquisar_usuarios_de_matriculas, \
+    filtrar_usuarios_matriculados
 from curso.model import Curso, Matricula
 from tekton import router
 from usuario.fachada import pesquisar_usuarios_por_nome
@@ -26,33 +27,38 @@ def salvar(_handler, nome):
 
 
 def matricula(_write_tmpl, curso_id, pesquisa=''):
-    #pesquisa de curso
     pesquisar_curso_cmd, curso_key = pesquisar_curso(curso_id)
-
-    #pesquisa de usuários por nome
     pesquisar_usuarios_cmd = pesquisar_usuarios_por_nome(pesquisa)
+    pesquisar_matriculas_cmd = pesquisar_matriculas_de_curso(curso_key)
 
-    lista_de_comandos = pesquisar_curso_cmd + pesquisar_usuarios_cmd
-    #pesquisa de matrículas
-    query = Matricula.query_matriculas_de_curso(curso_key)
-    matriculas = query.fetch()
-    chaves_usuarios_matriculados = [m.usuario for m in matriculas]
-    usuarios_matriculados_future = ndb.get_multi_async(chaves_usuarios_matriculados)
+    lista_de_comandos = pesquisar_curso_cmd + \
+                        pesquisar_usuarios_cmd + \
+                        pesquisar_matriculas_cmd
+
+    # Execução de todos comandos
+    lista_de_comandos.execute()
+
+    #extração de resultados
+    curso = pesquisar_curso_cmd.result
+    usuarios = pesquisar_usuarios_cmd.result
+    matriculas = pesquisar_matriculas_cmd.result
+
+    #construção de lista de alunos matriculados e não matriculados
+
+    pesquisar_matriculados_cmd, chaves_matriculados = \
+        pesquisar_usuarios_de_matriculas(matriculas)
+    filtrar_matriculados_cmd = filtrar_usuarios_matriculados(usuarios,
+                                                             chaves_matriculados)
+    lista_de_comandos_2 = pesquisar_matriculados_cmd + filtrar_matriculados_cmd
+    lista_de_comandos_2.execute()
+
+    usuarios_matriculados = pesquisar_matriculados_cmd.result
+    usuarios_nao_matriculados = filtrar_matriculados_cmd.result
 
     #construção de paths
     matricula_path = router.to_path(matricular, curso_id)
     desmatricula_path = router.to_path(desmatricular, curso_id)
     matricula_home_path = router.to_path(matricula, curso_id)
-
-    # Execução de todos comandos
-    lista_de_comandos.execute()
-    curso = pesquisar_curso_cmd.result
-    usuarios=pesquisar_usuarios_cmd.result
-    #construção de lista de alunos não matriculados
-    usuarios_nao_matriculados = [usuario for usuario in usuarios
-                                 if usuario.key not in chaves_usuarios_matriculados]
-
-    usuarios_matriculados = [future.get_result() for future in usuarios_matriculados_future]
     dct = {'curso': curso, 'pesquisa': pesquisa,
            'usuarios_matriculados': usuarios_matriculados,
            'usuarios_nao_matriculados': usuarios_nao_matriculados,
