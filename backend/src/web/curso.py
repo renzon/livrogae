@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from itertools import izip
 from google.appengine.ext import ndb
 from curso import fachada
+from curso.fachada import pesquisar_curso
 from curso.model import Curso, Matricula
 from tekton import router
 from usuario.model import Usuario
@@ -26,15 +27,14 @@ def salvar(_handler, nome):
 
 def matricula(_write_tmpl, curso_id, pesquisa=''):
     #pesquisa de curso
-    curso_id = int(curso_id)
-    curso_key = ndb.Key(Curso, curso_id)
-    curso_future = curso_key.get_async()
+    pesquisar_curso_cmd,curso_key = pesquisar_curso(curso_id)
 
     #pesquisa de usuários por nome
     query = Usuario.query_por_nome(pesquisa)
     usuarios_future = query.fetch_async(50)
 
     #pesquisa de matrículas
+    curso = pesquisar_curso_cmd.execute().result
     query = Matricula.query_matriculas_de_curso(curso_key)
     matriculas = query.fetch()
     chaves_usuarios_matriculados = [m.usuario for m in matriculas]
@@ -50,7 +50,6 @@ def matricula(_write_tmpl, curso_id, pesquisa=''):
     usuarios_nao_matriculados = [usuario for usuario in usuarios
                                  if usuario.key not in chaves_usuarios_matriculados]
 
-    curso = curso_future.get_result()
     usuarios_matriculados = [future.get_result() for future in usuarios_matriculados_future]
     dct = {'curso': curso, 'pesquisa': pesquisa,
            'usuarios_matriculados': usuarios_matriculados,
