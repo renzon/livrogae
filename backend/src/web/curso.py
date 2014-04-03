@@ -67,6 +67,13 @@ def matricular(_handler, curso_id, usuario_id):
     _handler.redirect(router.to_path(matricula, curso_id))
 
 
+def matricular_api(_json, curso_id, usuario_id):
+    usuario_key = ndb.Key(Usuario, int(usuario_id))
+    matricula = fachada.matricular(curso_id, usuario_key)
+    dct = {'id': str(matricula.key.id())}
+    _json(dct)
+
+
 def desmatricular(_handler, curso_id, usuario_id):
     curso_key = ndb.Key(Curso, int(curso_id))
     usuario_key = ndb.Key(Usuario, int(usuario_id))
