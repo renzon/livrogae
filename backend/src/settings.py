@@ -15,5 +15,7 @@ MIDDLEWARES = [TemplateMiddleware,
                EmailMiddleware,
                Webapp2Dependencies,
                RequestParamsMiddleware,
+               CSRFInputToDependency,
                RouterMiddleware,
+               CSRFMiddleware,
                ExecutionMiddleware]
