@@ -5,11 +5,12 @@ from curso import fachada
 from curso.fachada import pesquisar_curso, pesquisar_matriculas_de_curso, pesquisar_usuarios_de_matriculas, \
     filtrar_usuarios_matriculados
 from curso.model import Curso, Matricula
+from gaecookie.decorator import no_csrf
 from tekton import router
 from usuario.fachada import pesquisar_usuarios_por_nome
 from usuario.model import Usuario
 
-
+@no_csrf
 def index(_write_tmpl):
     query = Curso.query_ordenada_por_nome()
     cursos = query.fetch()
