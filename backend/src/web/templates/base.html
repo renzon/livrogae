@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+{% macro csrf_input() %}
+    <input type="hidden" value="{{ _csrf_code }}" name="_csrf_code"/>
+{% endmacro %}
+
 <head>
     <meta charset="utf-8">
     <title>Bootstrap 3, from LayoutIt!</title>

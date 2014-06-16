@@ -8,6 +8,7 @@
                 <div class="col-md-4 column">
                     <form action="{{ salvar_url }}" method="post">
                         <div class="input-group">
+                            {{ csrf_input() }}
                             <input type="text" class="form-control"
                                    placeholder="Nome do Curso" name="nome"/>
                             <span class="input-group-btn">
