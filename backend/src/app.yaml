@@ -26,6 +26,7 @@ libraries:
 handlers:
 - url: /
   script: convention.app
+  secure: always
 
 - url: /(.*)static(.*)
   static_files: web/\1static\2
@@ -36,4 +37,5 @@ handlers:
 
 - url: /.*
   script: convention.app
+  secure: always
 

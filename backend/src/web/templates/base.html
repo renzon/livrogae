@@ -31,6 +31,7 @@
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/js/scripts.js"></script>
+    {% block head %}{% endblock %}
 </head>
 
 <body>
@@ -71,7 +72,7 @@
                             </div>
                         </form>
                         {% else %}
-                            <a class="btn btn-success" href="{{ _login_pth }}">Login</a>
+                            <a class="btn btn-success" href="{{ _login_path }}">Login</a>
                         {% endif %}
                     </div>
                 </div>

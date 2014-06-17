@@ -3,8 +3,10 @@ import os
 
 _base = os.path.dirname(__file__)
 _base = os.path.join(_base, 'web')
+_template_base = os.path.join(_base, 'templates')
+
 _jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader([_base]),
+    loader=jinja2.FileSystemLoader([_base, _template_base]),
     trim_blocks=True,
     autoescape=True)
 

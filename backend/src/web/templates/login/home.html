@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="/static/css/bootstrap-social.css"/>
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% endblock %}
+{% block conteudo %}
+    <div class="container">
+        <br/>
+        <h1 class="text-center">Opções de Login</h1>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <div class="well">
+                    <h2>Google</h2><br/>
+                    <a href="{{ login_google_path }}" class="btn btn-social btn-google-plus"><i
+                            class="fa fa-google-plus"></i>Login com Google</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
