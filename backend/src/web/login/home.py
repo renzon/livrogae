@@ -5,11 +5,13 @@ from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required
 from tekton import router
 from web.login import google
+from web.login.passwordless import enviar_email
 
 
 @login_not_required
 @no_csrf
 def index(_write_tmpl, ret_path='/'):
     g_path = router.to_path(google.index, ret_path=ret_path)
-    dct = {'login_google_path': users.create_login_url(g_path)}
+    dct = {'login_google_path': users.create_login_url(g_path),
+           'login_passwordless_path': router.to_path(enviar_email,ret_path=ret_path),}
     _write_tmpl('login/home.html', dct)

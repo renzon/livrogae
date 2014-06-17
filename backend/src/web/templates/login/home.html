@@ -7,16 +7,33 @@
 {% block conteudo %}
     <div class="container">
         <br/>
+
         <h1 class="text-center">Opções de Login</h1>
         <br/>
         <br/>
         <br/>
+
         <div class="row">
             <div class="col-md-4 text-center">
                 <div class="well">
                     <h2>Google</h2><br/>
                     <a href="{{ login_google_path }}" class="btn btn-social btn-google-plus"><i
                             class="fa fa-google-plus"></i>Login com Google</a>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="well">
+                    <h2>Email</h2><br/>
+
+                    <form action="{{ login_passwordless_path }}" method="post">
+                        <div class="input-group">
+                            <input type="email" name="email" placeholder="Digite seu email" class="form-control"/>
+                        <span class="input-group-btn">
+                             <button class="btn btn-success" type="submit">Login</button>
+                        </span>
+                        </div>
+                        {{ csrf_input() }}
+                    </form>
                 </div>
             </div>
         </div>
