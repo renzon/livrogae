@@ -1,0 +1,1 @@
+/home/renzo/PycharmProjects/livrogae/backend/venv/dev_requirements.txt

@@ -7,7 +7,6 @@
 {% block conteudo %}
     <div class="container">
         <br/>
-
         <h1 class="text-center">Opções de Login</h1>
         <br/>
         <br/>
@@ -36,6 +35,77 @@
                     </form>
                 </div>
             </div>
+            <div class="col-md-4 text-center">
+                <div class="well">
+                    <h2>Facebook</h2><br/>
+                    <button class="btn btn-social btn-facebook" onclick="fb_login();">
+                        <i class="fa fa-facebook"></i>
+                        Login com Facebbok
+                    </button>
+                    <form id="fbform" action="{{ login_facebook_path }}" method="post">
+                        {{ csrf_input() }}
+                        <input id="tokeninput" type="hidden" name="token" placeholder="Type your email"/>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+    {# veja https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.0#}
+    <script>
+
+        var efetuarLoginComFacebook = function () {
+            var fbform = $('#fbform');
+            var tokeninput = $('#tokeninput');
+            return function (token) {
+                tokeninput.val(token);
+                fbform.submit();
+            }
+
+        }();
+
+        // Chamado como resultado de FB.getLoginStatus().
+        function statusMudouCallback(response) {
+            // O objeto response retorna com atributo status que permite a aplicação
+            // saber o status de login corrente do usuário
+            if (response.status === 'connected') {
+                // Está logado.
+                efetuarLoginComFacebook(response.authResponse.accessToken);
+            }
+        }
+        // Função chamada quando o usuário clica no botão de login
+        function fb_login() {
+            FB.login(statusMudouCallback, {
+                scope: 'public_profile,email'
+            });
+        }
+
+        // Essa função é chamada quando alguém finaliza o login no Facebook
+        function checarStatusDeLogin() {
+            FB.getLoginStatus(function (response) {
+                statusMudouCallback(response);
+            });
+        }
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '{{faceapp.app_id if faceapp}}',
+                cookie: true,  // enable cookies to allow the server to access
+                // the session
+                xfbml: true,  // parse social plugins on this page
+                version: 'v2.0' // use version 2.0
+            });
+        };
+
+        // Carrega o SDK de forma assíncrona
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/pt_BR/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+
+    </script>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+    <h1>Formulário de App Facebook</h1>
+    <p>Esses dados são utilizados para implementar o login. Mais informações em <a href="https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow/v2.0" target="passwordless">Documentação de login com Facebook</a>.</p>
+    <form action="{{ salvar_app_path }}" method="post">
+    {{ csrf_input() }}
+    <input type="text" name="app_id" placeholder="Digite o id da app" value="{{ app.app_id if app }}" />
+    <input type="text" name="token" placeholder="Digite o token da app" value="{{ app.token if app }}" />
+    <button type="submit">Salvar</button>
+
+    </form>
+{% endblock %}
